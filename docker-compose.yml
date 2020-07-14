@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  mysqldb:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=password--execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 10s
+      retries: 10
+    environment:
+      MYSQL_DATABASE: polestardb
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: root
+      MYSQL_USER: userdef
+      MYSQL_PASSWORD: password
+    networks:
+      - minha-rede
+
+  springjava:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: springjavabridge
+    ports:
+      - "8080:8080"
+    networks:
+      - minha-rede
+    depends_on:
+      - mysqldb
+
+networks:
+  minha-rede:
+    driver: bridge

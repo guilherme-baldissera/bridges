@@ -4,10 +4,12 @@ import com.polestar.bridges.entities.Bridge;
 import com.polestar.bridges.services.BridgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("bridges")
 public class BridgeController {
