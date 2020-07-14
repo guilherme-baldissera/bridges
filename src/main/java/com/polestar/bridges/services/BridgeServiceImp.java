@@ -7,11 +7,13 @@ import com.polestar.bridges.exception.NameAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class BridgeServiceImp implements BridgeService {
+
+    private static String NAME_ALREADY_EXIST = "There is already a bridge with this name";
+    private static String LOCATION_OCCUPIED = "There is already a bridge at this location";
 
     private BridgeRepository bridgeRepository;
 
@@ -28,12 +30,7 @@ public class BridgeServiceImp implements BridgeService {
 
     @Override
     public List<Bridge> getAllBridges() {
-        Iterable<Bridge> bridgesIterable = bridgeRepository.findAll();
-        List<Bridge> bridges = new ArrayList<>();
-
-        bridgesIterable.forEach(bridge -> bridges.add(bridge));
-
-        //Do some validation Here
+        List<Bridge> bridges = bridgeRepository.findAll();
 
         return bridges;
     }
@@ -42,11 +39,11 @@ public class BridgeServiceImp implements BridgeService {
 
         Bridge bridgeFromDbByName = bridgeRepository.findBridgeByName(bridge.getName());
         if(bridgeFromDbByName != null){
-            throw  new NameAlreadyExistException("There is already a bridge with this name");
+            throw  new NameAlreadyExistException(NAME_ALREADY_EXIST);
         }
         Bridge bridgeFromDbByPosition = bridgeRepository.findBridgeByLatitudeAndLongitude(bridge.getLatitude(), bridge.getLongitude());
         if(bridgeFromDbByPosition != null){
-            throw new LatAndLongAlreadyExistException("There is already a bridge on this location");
+            throw new LatAndLongAlreadyExistException(LOCATION_OCCUPIED);
         }
     }
 
