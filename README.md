@@ -1,6 +1,6 @@
 # bridges
 
-##Observation
+## Observation
 - when it's running using docker, the mysql database will just persist the data inside the container, it's possible to use volumes from docker to persist the data on your machine.
 - The application runs on a tomcat apache server by default
 
